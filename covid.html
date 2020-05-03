@@ -65,20 +65,32 @@
       <option value="WY">Wyoming</option>
     </select>
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="newChartContainer" style="height: 300px; width: 100%;"></div>
     <script>
       var dataPoints = [];
+      var newDataPoints = [];
       var chart;
       function queryApi() {
         dataPoints = [];
+<<<<<<< HEAD
+        // $.getJSON("https://covidtracking.com/api/states/daily.json", function(data) {
+          $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
+=======
         $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
+>>>>>>> c30d4bba7adc65bb62409642efa28985ef93460e
           for (var i = 0; i < data.length; i++) {
             if (data[i].state == $('#state').val()){
               dataPoints.push({
                 x: new Date(data[i].dateChecked),
                 y: data[i].positive
               });
+              newDataPoints.push({
+                x: new Date(data[i].dateChecked),
+                y: data[i].positiveIncrease
+              })
             }
           }
+          buildNewChart();
           buildChart();
         });
       }
@@ -87,7 +99,7 @@
           animationEnabled: true,
           theme: "light2",
           title: {
-            text: "Daily Covid Data"
+            text: "Daily New Covid Cases"
           },
           axisY: {
             title: "Cases",
@@ -97,6 +109,25 @@
             type: "line",
             yValueFormatString: "#,### positive",
             dataPoints: dataPoints
+          }]
+        });
+        chart.render();
+      }
+      function buildNewChart() {
+        chart = new CanvasJS.Chart("newChartContainer", {
+          animationEnabled: true,
+          theme: "light2",
+          title: {
+            text: "Daily Covid Cases Increase"
+          },
+          axisY: {
+            title: "Cases",
+            titleFontSize: 24
+          },
+          data: [{
+            type: "line",
+            yValueFormatString: "#,### positive",
+            dataPoints: newDataPoints
           }]
         });
         chart.render();
