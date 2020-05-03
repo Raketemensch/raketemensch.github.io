@@ -71,7 +71,9 @@
       var newDataPoints = [];
       var chart;
       function queryApi() {
+        //Hang on to data points here if you want to represent new states and add color
         dataPoints = [];
+        newDataPoints = [];
         // $.getJSON("https://covidtracking.com/api/states/daily.json", function(data) {
           $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
           for (var i = 0; i < data.length; i++) {
