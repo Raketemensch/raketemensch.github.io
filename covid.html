@@ -72,12 +72,8 @@
       var chart;
       function queryApi() {
         dataPoints = [];
-<<<<<<< HEAD
         // $.getJSON("https://covidtracking.com/api/states/daily.json", function(data) {
           $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
-=======
-        $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
->>>>>>> c30d4bba7adc65bb62409642efa28985ef93460e
           for (var i = 0; i < data.length; i++) {
             if (data[i].state == $('#state').val()){
               dataPoints.push({
