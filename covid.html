@@ -77,15 +77,17 @@
         // $.getJSON("https://covidtracking.com/api/states/daily.json", function(data) {
           $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
           for (var i = 0; i < data.length; i++) {
-            if (data[i].state == $('#state').val()){
-              dataPoints.push({
-                x: new Date(data[i].dateChecked),
-                y: data[i].positive
-              });
-              newDataPoints.push({
-                x: new Date(data[i].dateChecked),
-                y: data[i].positiveIncrease
-              })
+            if (data[i].dateChecked.substring(0,3) >= 2020){
+              if (data[i].state == $('#state').val()){
+                dataPoints.push({
+                  x: new Date(data[i].dateChecked),
+                  y: data[i].positive
+                });
+                newDataPoints.push({
+                  x: new Date(data[i].dateChecked),
+                  y: data[i].positiveIncrease
+                })
+              }
             }
           }
           buildNewChart();
