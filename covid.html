@@ -73,16 +73,19 @@
       <option value="WI">Wisconsin</option>
       <option value="WY">Wyoming</option>
     </select>
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <div id="newChartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="deathChartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <script>
       var dataPoints = [];
       var newDataPoints = [];
+      var deathDataPoints = [];
       var chart;
       function queryApi() {
         //Hang on to data points here if you want to represent new states and add color
         dataPoints = [];
         newDataPoints = [];
+        deathDataPoints = [];
         // $.getJSON("https://covidtracking.com/api/states/daily.json", function(data) {
           $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function(data) {
           for (var i = 0; i < data.length; i++) {
@@ -95,10 +98,15 @@
                   newDataPoints.push({
                     x: new Date(data[i].dateChecked),
                     y: data[i].positiveIncrease
-                  })
+                  });
+                  deathDataPoints.push({
+                    x: new Date(data[i].dateChecked),
+                    y: data[i].deathIncrease
+                  });
               }
             }
           }
+          buildDeathChart();
           buildNewChart();
           buildChart();
         });
@@ -118,6 +126,25 @@
             type: "line",
             yValueFormatString: "#,### positive",
             dataPoints: dataPoints
+          }]
+        });
+        chart.render();
+      }
+      function buildDeathChart() {
+        chart = new CanvasJS.Chart("deathChartContainer", {
+          animationEnabled: true,
+          theme: "light2",
+          title: {
+            text: "Daily New Covid Deaths"
+          },
+          axisY: {
+            title: "Deaths",
+            titleFontSize: 24
+          },
+          data: [{
+            type: "line",
+            yValueFormatString: "#,### positive",
+            dataPoints: deathDataPoints
           }]
         });
         chart.render();
